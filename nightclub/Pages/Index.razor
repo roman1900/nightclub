@@ -1,0 +1,31 @@
+﻿@page "/"
+@inject NavigationManager navManager
+@using sappy
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+@if (!_Authed)
+{
+    <a href="@_spotifyAuth">
+        Login via Spotify
+    </a>
+}
+
+@code{
+    private Uri _spotifyAuth;
+    private bool _Authed;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Spotify s = new Spotify("a", null, navManager.ToAbsoluteUri(navManager.BaseUri).ToString());
+        _spotifyAuth = s.Authorise(Spotify.Scopes.playlist_read_private | Spotify.Scopes.playlist_read_collaborative);
+        _Authed = false;
+    }
+    // protected override async Task OnInitializedAsync()
+    // {
+    //    base.OnInitializedAsync();
+
+    //}
+}
